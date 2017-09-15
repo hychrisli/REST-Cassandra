@@ -3,8 +3,12 @@
 
 # User-specific stuff:
 .idea/
+target/
 
 # IntelliJ
 out/
 *.iml
-
+# eclipse
+.classpath
+.project
+.settings/
