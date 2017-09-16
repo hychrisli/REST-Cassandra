@@ -1,0 +1,9 @@
+
+
+CREATE KEYSPACE mydb WITH replication={'class': 'SimpleStrategy', 'replication_factor': '1'};
+
+CREATE TABLE Employee ( id int, firstname text, lastname text, PRIMARY KEY(id));
+
+
+INSERT INTO Employee (id, firstname, lastname) VALUES (1, 'John', 'Smith');
+

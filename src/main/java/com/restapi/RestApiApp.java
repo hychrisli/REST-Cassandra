@@ -1,11 +1,14 @@
-package com.restapi.web.config;
+package com.restapi;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-public class AppConfig {
+@ComponentScan
+public class RestApiApp {
     public static void main(String[] args) {
-        SpringApplication.run(AppConfig.class, args);
+    	SpringApplication.run(RestApiApp.class, args);
     }
 }
