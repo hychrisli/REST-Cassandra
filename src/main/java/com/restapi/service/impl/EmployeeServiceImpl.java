@@ -18,8 +18,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeRepository repo;
 	
 	@Override
-	public List<String> getRes(){
+	public List<Employee> getRes(){
 		List<Employee> res = Lists.newArrayList(repo.findAll());
-		return res.stream().map(Employee::getFirstname).collect(Collectors.toList()) ;
+		return res ;
 	}
 }
