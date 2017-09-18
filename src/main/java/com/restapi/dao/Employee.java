@@ -2,11 +2,11 @@ package com.restapi.dao;
 
 public class Employee {
 	
-	private long id;
+	private Long id;
 	private String firstname;
 	private String lastname;
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	public void setId(long id) {

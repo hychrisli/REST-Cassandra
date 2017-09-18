@@ -24,7 +24,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Boolean insertEmployee(Employee employee) {
+		if (findEmployee(employee.getId()) != null)
+			return false;
+		
 		repo.save(employee);
 		return true;
+	}
+
+	@Override
+	public Employee findEmployee(Long id) {
+		return repo.findById(id);
 	}
 }

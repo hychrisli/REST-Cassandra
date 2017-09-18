@@ -8,4 +8,5 @@ import com.restapi.dao.Employee;
 
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 	List<Employee> findByLastname(String lastname);
+	Employee findById(Long id);
 }
