@@ -1,5 +1,9 @@
 package cmpe.restapi.controller;
 
+import static cmpe.restapi.config.UrlConstants.EMPLOYEES;
+import static cmpe.restapi.config.UrlConstants.EMPLOYEE_ID;
+import static cmpe.restapi.config.UrlConstants.EMPLOYEE;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +18,14 @@ import cmpe.restapi.dao.Employee;
 import cmpe.restapi.mapper.JsonResponse;
 import cmpe.restapi.service.EmployeeService;
 
+
 @RestController
 public class EmployeeController extends AbstractController {
 
 	@Autowired
 	EmployeeService employeeSvc;
 
-	@GetMapping("/")
-	public String greet() {
-		return "Spring REST API for CMPE 282";
-	}
-
-	@GetMapping("/employees")
+	@GetMapping(EMPLOYEES)
 	public ResponseEntity<JsonResponse> getEmployees() {
 		List<Employee> employeeLst = employeeSvc.getAllEmployees();
 
@@ -34,7 +34,7 @@ public class EmployeeController extends AbstractController {
 		return notFound();
 	}
 
-	@GetMapping("/employee/{id}")
+	@GetMapping(EMPLOYEE_ID)
 	public ResponseEntity<JsonResponse> getEmployee(@PathVariable Long id){
 		Employee employee = employeeSvc.findEmployee(id);
 		if (employee != null)
@@ -42,9 +42,9 @@ public class EmployeeController extends AbstractController {
 		return notFound();
 	}
 	
-	@PostMapping("/employee")
+	@PostMapping(EMPLOYEE)
 	public ResponseEntity<JsonResponse> createEmployee(@RequestBody Employee employee) {
-		if (employeeSvc.insertEmployee(employee))
+		if (employeeSvc.createEmployee(employee))
 			return created();
 		return conflict("employee", employee);
 	}

@@ -7,5 +7,5 @@ import cmpe.restapi.dao.Employee;
 public interface EmployeeService {
 	public List<Employee> getAllEmployees();
 	public Employee findEmployee(Long id);
-	public Boolean insertEmployee(Employee employee); 
+	public Boolean createEmployee(Employee employee); 
 }

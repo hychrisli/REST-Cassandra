@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import cmpe.restapi.dao.Employee;
 import cmpe.restapi.repository.EmployeeRepository;
@@ -22,7 +21,6 @@ import cmpe.restapi.service.impl.EmployeeServiceImpl;
 public class EmployeeServiceTest {
 
 	@Mock
-	@Autowired
 	private EmployeeRepository repo;
 
 	@InjectMocks
@@ -34,16 +32,31 @@ public class EmployeeServiceTest {
 	
 	@Before
 	public void init(){
-		emp1 = new Employee((long) 1, "John", "Smith");
-		emp2 = new Employee((long) 2, "Laura", "Johnson");
+		emp1 = new Employee( 1L, "John", "Smith");
+		emp2 = new Employee( 2L, "Laura", "Johnson");
 		emplst = new ArrayList<Employee>();
 		emplst.add(emp1);
+		
+		Mockito.when(repo.findById(emp1.getId())).thenReturn(emp1);
+		Mockito.when(repo.findById(emp2.getId())).thenReturn(null);
 	}
 	
 	@Test
 	public void testGetAllEmployees(){
-		// System.out.print(emplst.get(0).getFirstname());
 		Mockito.when(repo.findAll()).thenReturn(emplst);
-		Assert.assertEquals(repo.findAll(), employeeSvc.getAllEmployees());
+		Assert.assertEquals(emplst, employeeSvc.getAllEmployees());
 	}
+	
+	public void testFindEmployee(){
+		Assert.assertEquals(emp1, employeeSvc.findEmployee(1L));
+		Assert.assertEquals(null, employeeSvc.findEmployee(2L));
+	}
+	
+	public void testCreateEmployee(){
+		Mockito.when(repo.save(emp2)).thenReturn(emp2);
+		
+		Assert.assertEquals(false, employeeSvc.createEmployee(emp1));
+		Assert.assertEquals(true, employeeSvc.createEmployee(emp2));
+	}
+	
 }
