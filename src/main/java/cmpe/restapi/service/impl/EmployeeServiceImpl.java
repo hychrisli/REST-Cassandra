@@ -35,4 +35,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee findEmployee(Long id) {
 		return repo.findById(id);
 	}
+
+	@Override
+	public Employee deleteEmployee(Long id) {
+		Employee employee = findEmployee(id);
+		if (employee != null) {
+			repo.deleteById(id);
+			return employee;
+		}
+		return null;
+	}
 }

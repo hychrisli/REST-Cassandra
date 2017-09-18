@@ -16,31 +16,30 @@ public abstract class AbstractController {
 	private final static Logger LOGGER = getLogger(AbstractController.class);
 
 	protected <T> ResponseEntity<JsonResponse> success(String key, T data){
-		Map<String, Object> responseData = new HashMap<String, Object>();
-		responseData.put(key, data);
-		JsonResponse jsonResponse = new JsonResponse(HttpStatus.OK.value(), "OK", responseData);
-		return genericResponse(jsonResponse, HttpStatus.OK);
+		return genericResponse(genResponseData(key, data), HttpStatus.OK);
 	}
 	
 	protected ResponseEntity<JsonResponse> notFound(){
-		JsonResponse jsonResponse = new JsonResponse(HttpStatus.NOT_FOUND.value(), "Not Found", null);
-		return genericResponse(jsonResponse, HttpStatus.NOT_FOUND);
+		return genericResponse(null, HttpStatus.NOT_FOUND);
 	}
 	
-	protected ResponseEntity<JsonResponse> created(){
-		JsonResponse jsonResponse = new JsonResponse(HttpStatus.CREATED.value(), "created", null);
-		return genericResponse(jsonResponse, HttpStatus.CREATED);
+	protected ResponseEntity<JsonResponse> created(String loc){
+		return genericResponse(genResponseData("Location", loc), HttpStatus.CREATED);
 	}
 	
 	protected <T> ResponseEntity<JsonResponse> conflict(String key, T data){
-		Map<String, Object> responseData = new HashMap<String, Object>();
-		responseData.put(key, data);
-		JsonResponse jsonResponse = new JsonResponse(HttpStatus.CONFLICT.value(), "conflict", responseData);
-		return genericResponse(jsonResponse, HttpStatus.CONFLICT);
+		return genericResponse(genResponseData(key, data), HttpStatus.CONFLICT);
 	}
 	
-	private ResponseEntity<JsonResponse> genericResponse (JsonResponse jsonResponse, HttpStatus httpStatus){
+	private ResponseEntity<JsonResponse> genericResponse (Map<String, Object> responseData, HttpStatus httpStatus){
+		JsonResponse jsonResponse = new JsonResponse(httpStatus.value(), httpStatus.name(), responseData);
 		return new ResponseEntity<JsonResponse>(jsonResponse, httpStatus);
+	}
+	
+	private <T> Map<String, Object> genResponseData(String key, T data) {
+		Map<String, Object> responseData = new HashMap<String, Object>();
+		responseData.put(key, data);
+		return responseData;
 	}
 
 }
