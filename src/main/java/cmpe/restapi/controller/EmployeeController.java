@@ -1,4 +1,4 @@
-package com.restapi.controller;
+package cmpe.restapi.controller;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.restapi.dao.Employee;
-import com.restapi.mapper.JsonResponse;
-import com.restapi.service.EmployeeService;
+import cmpe.restapi.dao.Employee;
+import cmpe.restapi.mapper.JsonResponse;
+import cmpe.restapi.service.EmployeeService;
 
 @RestController
 public class EmployeeController extends AbstractController {

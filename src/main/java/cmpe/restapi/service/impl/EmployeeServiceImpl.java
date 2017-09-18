@@ -1,4 +1,4 @@
-package com.restapi.service.impl;
+package cmpe.restapi.service.impl;
 
 import java.util.List;
 
@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
-import com.restapi.dao.Employee;
-import com.restapi.repository.EmployeeRepository;
-import com.restapi.service.EmployeeService;
+
+import cmpe.restapi.dao.Employee;
+import cmpe.restapi.repository.EmployeeRepository;
+import cmpe.restapi.service.EmployeeService;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -26,7 +27,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Boolean insertEmployee(Employee employee) {
 		if (findEmployee(employee.getId()) != null)
 			return false;
-		
 		repo.save(employee);
 		return true;
 	}

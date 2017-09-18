@@ -1,4 +1,4 @@
-package com.restapi.config;
+package cmpe.restapi.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.config.java.AbstractCassandraConfiguration;

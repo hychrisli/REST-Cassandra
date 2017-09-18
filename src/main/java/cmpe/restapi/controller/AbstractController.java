@@ -1,4 +1,4 @@
-package com.restapi.controller;
+package cmpe.restapi.controller;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.restapi.mapper.JsonResponse;
+import cmpe.restapi.mapper.JsonResponse;
 
 public abstract class AbstractController {
 

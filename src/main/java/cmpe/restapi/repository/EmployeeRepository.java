@@ -1,10 +1,10 @@
-package com.restapi.repository;
+package cmpe.restapi.repository;
 
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.restapi.dao.Employee;
+import cmpe.restapi.dao.Employee;
 
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 	List<Employee> findByLastname(String lastname);

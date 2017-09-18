@@ -1,4 +1,4 @@
-package com.restapi;
+package cmpe.restapi;
 
 
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
-package com.restapi.mapper;
+package cmpe.restapi.mapper;
 
 import java.util.Map;
 
