@@ -5,6 +5,6 @@ import java.util.List;
 import com.restapi.dao.Employee;
 
 public interface EmployeeService {
-	public List<Employee> getRes();
-	
+	public List<Employee> getAllEmployees();
+	public Boolean insertEmployee(Employee employee); 
 }

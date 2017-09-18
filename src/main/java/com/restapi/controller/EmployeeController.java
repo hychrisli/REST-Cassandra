@@ -1,25 +1,23 @@
 package com.restapi.controller;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.restapi.mapper.JsonMapper;
+import com.restapi.dao.Employee;
 import com.restapi.mapper.JsonResponse;
 import com.restapi.service.EmployeeService;
 
 @RestController
-public class EmployeeController {
+public class EmployeeController extends AbstractController{
 
 	@Autowired
 	EmployeeService employeeSvc;
-	
-	private JsonMapper jsonMapper = new JsonMapper();
 	
 	@GetMapping("/")
 	public String greet(){
@@ -38,10 +36,22 @@ public class EmployeeController {
 	@GetMapping("/employees")
 	public ResponseEntity<JsonResponse> getEmployees(){
 		
-		Map<String, Object> res = new HashMap<String, Object>();
-		res.put("employees", employeeSvc.getRes()); 
-		JsonResponse jr = new JsonResponse(202, "responseData", res);
-		return new ResponseEntity<JsonResponse>(jr, HttpStatus.OK);
+		// Map<String, Object> res = new HashMap<String, Object>();
+		// res.put("employees", employeeSvc.getRes()); 
+		
+		List<Employee> employeeLst = employeeSvc.getAllEmployees();
+		
+		if (employeeLst != null)
+			return success("employees", employeeLst);
+		return notFound();
 	}
+	
+	
+	 @PostMapping("/employee")
+	 public ResponseEntity<JsonResponse> createEmployee (@RequestBody Employee employee){
+		 if(employeeSvc.insertEmployee(employee))
+		 	return created();
+		 return conflict("employee", employee);
+	 }
 	
 }

@@ -4,21 +4,21 @@ import java.util.Map;
 
 public class JsonResponse {
 	
-	private int status;
+	private int httpStatus;
 	private String statMsg;
 	private Map<String, Object> responseData;
 	
 	public JsonResponse(int status, String statMsg, Map<String, Object> responseData){
-		this.status = status;
+		this.httpStatus = status;
 		this.statMsg = statMsg;
 		this.responseData = responseData;
 	}
 	
-	public int getStatus() {
-		return status;
+	public int getHttpStatus() {
+		return httpStatus;
 	}
-	public void setStatus(int status) {
-		this.status = status;
+	public void setHttpStatus(int status) {
+		this.httpStatus = status;
 	}
 	public String getStatMsg() {
 		return statMsg;
