@@ -47,11 +47,13 @@ public class EmployeeServiceTest {
 		Assert.assertEquals(emplst, employeeSvc.getAllEmployees());
 	}
 	
+	@Test
 	public void testFindEmployee(){
 		Assert.assertEquals(emp1, employeeSvc.findEmployee(1L));
 		Assert.assertEquals(null, employeeSvc.findEmployee(2L));
 	}
 	
+	@Test
 	public void testCreateEmployee(){
 		Mockito.when(repo.save(emp2)).thenReturn(emp2);
 		

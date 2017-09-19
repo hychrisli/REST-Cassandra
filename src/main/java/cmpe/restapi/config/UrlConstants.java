@@ -1,7 +1,7 @@
 package cmpe.restapi.config;
 
 public interface UrlConstants {
-	String HOME = "cmpe282hongyuanli151/rest";
+	String HOME = "/cmpe282hongyuanli151/rest";
 	
 	String EMPLOYEES = HOME + "/employees";
 	String EMPLOYEE = HOME + "/employee";
