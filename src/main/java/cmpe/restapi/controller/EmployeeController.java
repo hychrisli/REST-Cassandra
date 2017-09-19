@@ -4,7 +4,10 @@ import static cmpe.restapi.config.UrlConstants.EMPLOYEES;
 import static cmpe.restapi.config.UrlConstants.EMPLOYEE_ID;
 import static cmpe.restapi.config.UrlConstants.EMPLOYEE;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import cmpe.restapi.dao.Employee;
 import cmpe.restapi.mapper.JsonResponse;
 import cmpe.restapi.service.EmployeeService;
@@ -26,7 +32,7 @@ public class EmployeeController extends AbstractController {
 
 	@Autowired
 	EmployeeService employeeSvc;
-
+	
 	@GetMapping(EMPLOYEES)
 	public ResponseEntity<JsonResponse> getEmployees() {
 		List<Employee> employeeLst = employeeSvc.getAllEmployees();
@@ -52,8 +58,11 @@ public class EmployeeController extends AbstractController {
 	}
 
 	@PutMapping(EMPLOYEE_ID)
-	public ResponseEntity<JsonResponse> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-		return null;
+	public ResponseEntity<JsonResponse> updateEmployee(@PathVariable Long id, HttpServletRequest request) {
+		Employee employee = employeeSvc.updateEmployee(id, request);
+		if (employee != null)
+			return success("employee", employee);
+		return notFound();
 	}
 	
 	@DeleteMapping(EMPLOYEE_ID)

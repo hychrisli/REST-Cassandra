@@ -2,6 +2,8 @@ package cmpe.restapi.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import cmpe.restapi.dao.Employee;
 
 public interface EmployeeService {
@@ -10,6 +12,8 @@ public interface EmployeeService {
 	public Employee findEmployee(Long id);
 	
 	public Boolean createEmployee(Employee employee); 
+	
+	public Employee updateEmployee(Long id, HttpServletRequest request);
 	
 	public Employee deleteEmployee(Long id);
 }
