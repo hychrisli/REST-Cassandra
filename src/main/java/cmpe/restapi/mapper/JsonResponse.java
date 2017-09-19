@@ -1,35 +1,26 @@
 package cmpe.restapi.mapper;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public class JsonResponse {
+public class JsonResponse extends HashMap<String, Object> {
 	
-	private int httpStatus;
-	private String statMsg;
-	private Map<String, Object> responseData;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2577404131633745147L;
 	
-	public JsonResponse(int status, String statMsg, Map<String, Object> responseData){
-		this.httpStatus = status;
-		this.statMsg = statMsg;
-		this.responseData = responseData;
+	public JsonResponse(){}
+	
+	public JsonResponse(String key, Object value){
+		addPair(key, value);
 	}
 	
-	public int getHttpStatus() {
-		return httpStatus;
+	public void addPair(String key, Object value){
+		this.put(key, value);
 	}
-	public void setHttpStatus(int status) {
-		this.httpStatus = status;
-	}
-	public String getStatMsg() {
-		return statMsg;
-	}
-	public void setStatMsg(String statMsg) {
-		this.statMsg = statMsg;
-	}
+	
 	public Map<String, Object> getResponseData() {
-		return responseData;
-	}
-	public void setResponseData(Map<String, Object> responseData) {
-		this.responseData = responseData;
+		return this;
 	}
 }
