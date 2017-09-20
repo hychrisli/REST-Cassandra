@@ -9,8 +9,11 @@ import org.slf4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import cmpe.restapi.mapper.JsonResponse;
+import cmpe.restapi.config.AppException;
+import cmpe.restapi.config.ErrorCode;
+import cmpe.restapi.config.JsonResponse;
 
 public abstract class AbstractController {
 
@@ -43,4 +46,18 @@ public abstract class AbstractController {
 	private ResponseEntity<JsonResponse> responseWithCustHeaders(JsonResponse jsonResponse, HttpHeaders headers, HttpStatus httpStatus){
 		return new ResponseEntity<JsonResponse>(jsonResponse, headers, httpStatus);
 	}
+	
+	private ResponseEntity<JsonResponse> failure(ErrorCode errorCode, String msg){
+		JsonResponse jsonResponse = 
+				new JsonResponse("ERROR", errorCode.name())
+				.addPair("Message", msg);
+		return genericResponse(jsonResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@ExceptionHandler(AppException.class)
+	public ResponseEntity<JsonResponse> handleAppException(AppException appException){
+		LOGGER.error(appException.getErrorCode().name(), appException);
+		return failure(appException.getErrorCode(), appException.getMessage());
+	}
+	
 }

@@ -1,4 +1,4 @@
-package cmpe.restapi.mapper;
+package cmpe.restapi.config;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +16,9 @@ public class JsonResponse extends HashMap<String, Object> {
 		addPair(key, value);
 	}
 	
-	public void addPair(String key, Object value){
+	public JsonResponse addPair(String key, Object value){
 		this.put(key, value);
+		return this;
 	}
 	
 	public Map<String, Object> getResponseData() {
