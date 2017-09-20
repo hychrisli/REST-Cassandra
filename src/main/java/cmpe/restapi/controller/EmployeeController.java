@@ -1,11 +1,15 @@
 package cmpe.restapi.controller;
 
+import static cmpe.restapi.config.UrlConstants.EMPLOYEE;
 import static cmpe.restapi.config.UrlConstants.EMPLOYEES;
 import static cmpe.restapi.config.UrlConstants.EMPLOYEE_ID;
-import static org.slf4j.LoggerFactory.getLogger;
-import static cmpe.restapi.config.UrlConstants.EMPLOYEE;
 
-import java.io.IOException;
+import static cmpe.restapi.config.JsonConstants.KEY_EMPLOYEE;
+import static cmpe.restapi.config.JsonConstants.KEY_EMPLOYEES;
+
+import static org.slf4j.LoggerFactory.getLogger;
+
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,12 +25,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import cmpe.restapi.config.AppException;
 import cmpe.restapi.config.JsonResponse;
 import cmpe.restapi.dao.Employee;
+import cmpe.restapi.error.AppException;
 import cmpe.restapi.service.EmployeeService;
 
 
@@ -43,7 +44,7 @@ public class EmployeeController extends AbstractController {
 		List<Employee> employeeLst = employeeSvc.getAllEmployees();
 
 		if (employeeLst != null)
-			return success("employees", employeeLst);
+			return success(KEY_EMPLOYEES, employeeLst);
 		return notFound();
 	}
 
@@ -51,7 +52,7 @@ public class EmployeeController extends AbstractController {
 	public ResponseEntity<JsonResponse> getEmployee(@PathVariable Long id){
 		Employee employee = employeeSvc.findEmployee(id);
 		if (employee != null)
-			return success("employee", employee);
+			return success(KEY_EMPLOYEE, employee);
 		return notFound();
 	}
 	
@@ -59,15 +60,14 @@ public class EmployeeController extends AbstractController {
 	public ResponseEntity<JsonResponse> createEmployee(@RequestBody Employee employee) {
 		if (employeeSvc.createEmployee(employee))
 			return created(EMPLOYEE + "/" + employee.getId());
-		return conflict("employee", employee);
+		return conflict(KEY_EMPLOYEE, employee);
 	}
 
 	@PutMapping(EMPLOYEE_ID)
 	public ResponseEntity<JsonResponse> updateEmployee(@PathVariable Long id, HttpServletRequest request) throws AppException {
-		LOGGER.info("hello");
 		Employee employee = employeeSvc.updateEmployee(id, request);
 		if (employee != null)
-			return success("employee", employee);
+			return success(KEY_EMPLOYEE, employee);
 		return notFound();
 	}
 	
@@ -75,7 +75,7 @@ public class EmployeeController extends AbstractController {
 	public ResponseEntity<JsonResponse> deleteEmployee(@PathVariable Long id){
 		Employee employee = employeeSvc.deleteEmployee(id);
 		if (employee != null) {
-			return success("employee", employee);
+			return success(KEY_EMPLOYEE, employee);
 		}
 		return notFound();
 	}

@@ -1,7 +1,7 @@
 package cmpe.restapi.service.impl;
 
-import static cmpe.restapi.config.ErrorCode.INVALID_JSON;
-import static cmpe.restapi.config.ErrorCode.IO_EXCEPTION;
+import static cmpe.restapi.error.ErrorCode.ERR_INVALID_JSON;
+import static cmpe.restapi.error.ErrorCode.ERR_IO_EXCEPTION;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,8 +15,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
-import cmpe.restapi.config.AppException;
 import cmpe.restapi.dao.Employee;
+import cmpe.restapi.error.AppException;
 import cmpe.restapi.repository.EmployeeRepository;
 import cmpe.restapi.service.EmployeeService;
 
@@ -70,12 +70,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 				repo.save(updatedEmployee);
 				return updatedEmployee;
 			} catch (JsonProcessingException e) {
-				throw new AppException(INVALID_JSON, e);
+				throw new AppException(ERR_INVALID_JSON, e);
 			} catch (IOException e) {
-				throw new AppException(IO_EXCEPTION, e);
+				throw new AppException(ERR_IO_EXCEPTION, e);
 			}
 		}
-
 		return null;
 	}
 }

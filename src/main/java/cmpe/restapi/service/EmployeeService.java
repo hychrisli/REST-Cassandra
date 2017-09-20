@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cmpe.restapi.config.AppException;
 import cmpe.restapi.dao.Employee;
+import cmpe.restapi.error.AppException;
 
 public interface EmployeeService {
 	public List<Employee> getAllEmployees();

@@ -1,4 +1,4 @@
-package cmpe.restapi.config;
+package cmpe.restapi.error;
 
 public class AppException extends Exception {
 

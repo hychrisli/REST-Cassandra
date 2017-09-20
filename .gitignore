@@ -5,6 +5,7 @@
 .idea/
 target/
 *.log
+logs/
 
 # IntelliJ
 out/
