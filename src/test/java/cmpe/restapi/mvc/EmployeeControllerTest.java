@@ -2,33 +2,46 @@ package cmpe.restapi.mvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.mockito.Matchers.refEq;
+import static org.mockito.Matchers.eq;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.times;
+import static org.mockito.Matchers.any;
 import static cmpe.restapi.config.UrlConstants.EMPLOYEES;
 import static cmpe.restapi.config.UrlConstants.EMPLOYEE;
 import static cmpe.restapi.config.JsonConstants.KEY_LOCATION;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import cmpe.restapi.controller.EmployeeController;
 import cmpe.restapi.dao.Employee;
+import cmpe.restapi.error.AppException;
 import cmpe.restapi.service.EmployeeService;
 
 
@@ -41,6 +54,9 @@ public class EmployeeControllerTest {
 
 	@Mock
 	private EmployeeService employeeSvc;
+	
+	@Mock
+	private HttpServletRequest req;
 
 	@InjectMocks
 	private EmployeeController employeeCtrl;
@@ -123,4 +139,21 @@ public class EmployeeControllerTest {
 		
 	}
 
+	@Test
+	public void testSuccessfulUpdateEmployee() throws Exception{
+		Employee emp1b = new Employee(emp1.getId(), "Kevin", emp1.getLastname());
+		
+		Mockito.when(employeeSvc.updateEmployee(eq(1L), any())).thenReturn(emp1b);
+		mockMvc.perform(put(EMPLOYEE + "/1").contentType(MediaType.APPLICATION_JSON))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.employee.firstname", equalTo("Kevin")));
+	}
+	
+	@Test
+	public void testUpdateEmployeeNotFound() throws Exception {
+		Mockito.when(employeeSvc.updateEmployee(eq(1L), any())).thenReturn(null);
+		mockMvc.perform(put(EMPLOYEE + "/1").contentType(MediaType.APPLICATION_JSON))
+		.andExpect(status().isNotFound());
+	}
+	
 }

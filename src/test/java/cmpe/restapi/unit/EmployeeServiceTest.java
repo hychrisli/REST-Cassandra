@@ -1,6 +1,17 @@
 package cmpe.restapi.unit;
 
+import static cmpe.restapi.config.UrlConstants.EMPLOYEE;
+import static org.mockito.Matchers.refEq;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 import org.junit.Assert;
@@ -10,9 +21,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import cmpe.restapi.dao.Employee;
+import cmpe.restapi.error.AppException;
 import cmpe.restapi.repository.EmployeeRepository;
 import cmpe.restapi.service.EmployeeService;
 import cmpe.restapi.service.impl.EmployeeServiceImpl;
@@ -22,7 +37,10 @@ public class EmployeeServiceTest {
 
 	@Mock
 	private EmployeeRepository repo;
-
+	
+	@Mock
+	private HttpServletRequest req;
+	
 	@InjectMocks
 	private EmployeeService employeeSvc = new EmployeeServiceImpl();
 	
@@ -59,6 +77,25 @@ public class EmployeeServiceTest {
 		
 		Assert.assertEquals(false, employeeSvc.createEmployee(emp1));
 		Assert.assertEquals(true, employeeSvc.createEmployee(emp2));
+	}
+	
+	@Test
+	public void testUpdateEmployee() throws IOException, AppException{
+		
+		String jsonEmp1 = "{\"firstname\":\"Kevin\"}";
+		BufferedReader br = new BufferedReader(new StringReader(jsonEmp1));
+		
+		HttpServletRequest putReq = new HttpServletRequestWrapper(req);
+		
+		Employee emp1a = new Employee(emp1);
+		Employee emp1b = new Employee(emp1.getId(), "Kevin", emp1.getLastname());
+		
+		Mockito.when(putReq.getReader()).thenReturn(br);
+		Mockito.when(repo.findById(1L)).thenReturn(emp1a);
+		Mockito.when(repo.save(refEq(emp1b))).thenReturn(emp1b);
+		
+		Employee emp1c = employeeSvc.updateEmployee(1L,putReq);
+		Assert.assertThat(emp1b, new ReflectionEquals(emp1c));
 	}
 	
 }

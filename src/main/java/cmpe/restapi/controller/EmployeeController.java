@@ -33,8 +33,6 @@ import cmpe.restapi.service.EmployeeService;
 
 @RestController
 public class EmployeeController extends AbstractController {
-
-	private final static Logger LOGGER = getLogger(EmployeeController.class);
 	
 	@Autowired
 	EmployeeService employeeSvc;

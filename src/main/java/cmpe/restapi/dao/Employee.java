@@ -8,6 +8,12 @@ public class Employee {
 	
 	public Employee(){}
 	
+	public Employee(Employee that){
+		this.id = that.id;
+		this.firstname = that.firstname;
+		this.lastname = that.lastname;
+	}
+	
 	public Employee(Long id, String firstname, String lastname){
 		this.id = id;
 		this.firstname = firstname;

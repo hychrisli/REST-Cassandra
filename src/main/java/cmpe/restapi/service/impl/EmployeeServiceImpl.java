@@ -3,6 +3,7 @@ package cmpe.restapi.service.impl;
 import static cmpe.restapi.error.ErrorCode.ERR_INVALID_JSON;
 import static cmpe.restapi.error.ErrorCode.ERR_IO_EXCEPTION;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private EmployeeRepository repo;
 	
-	@Autowired
-	ObjectMapper objectMapper;
+	/*@Autowired
+	private ObjectMapper objectMapper;*/
 	
 	@Override
 	public List<Employee> getAllEmployees(){
@@ -59,14 +60,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Employee updateEmployee(Long id, HttpServletRequest request) throws AppException {
+	public Employee updateEmployee(Long id, HttpServletRequest req) throws AppException {
 		Employee employee = findEmployee(id);
 		
 		if (employee != null){
 			try {
+				ObjectMapper objectMapper = new ObjectMapper();
 				Employee updatedEmployee = objectMapper
 						.readerForUpdating(employee)
-						.readValue(request.getReader());
+						.readValue(req.getReader());
 				repo.save(updatedEmployee);
 				return updatedEmployee;
 			} catch (JsonProcessingException e) {
