@@ -1,9 +1,25 @@
 package cmpe.restapi.dao;
 
-public class Employee {
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
+public class Employee implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 84963630719145527L;
+
+	@Id
 	private Long id;
+	
 	private String firstname;
+	
 	private String lastname;
 	
 	public Employee(){}

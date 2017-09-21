@@ -69,7 +69,8 @@ public class EmployeeControllerTest {
 	}
 
 	@Test
-	public void testGetEmployees() throws Exception {
+	public void testGetEmployeesSuccess() throws Exception {
+		
 		Mockito.when(employeeSvc.getAllEmployees()).thenReturn(emplst);
 		mockMvc.perform(get(EMPLOYEES))
 		.andExpect(status().isOk())
@@ -80,6 +81,12 @@ public class EmployeeControllerTest {
 		Mockito.verify(employeeSvc, times(1)).getAllEmployees();
 	}
 
+	@Test
+	public void testGetEmployeesNotFound() throws Exception{
+		Mockito.when(employeeSvc.getAllEmployees()).thenReturn(new ArrayList<Employee>());
+		mockMvc.perform(get(EMPLOYEES)).andExpect(status().isNotFound());
+	}
+	
 	@Test
 	public void testGetEmployee() throws Exception {
 		

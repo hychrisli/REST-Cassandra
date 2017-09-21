@@ -38,9 +38,11 @@ public class EmployeeController extends AbstractController {
 	public ResponseEntity<JsonResponse> getEmployees() {
 		List<Employee> employeeLst = employeeSvc.getAllEmployees();
 
-		if (employeeLst != null)
-			return success(KEY_EMPLOYEES, employeeLst);
-		return notFound();
+		if (employeeLst.isEmpty())
+			return notFound();
+		
+		return success(KEY_EMPLOYEES, employeeLst);
+		
 	}
 
 	@GetMapping(EMPLOYEE_ID)
@@ -55,7 +57,7 @@ public class EmployeeController extends AbstractController {
 	public ResponseEntity<JsonResponse> createEmployee(@RequestBody Employee employee) {
 		if (employeeSvc.createEmployee(employee))
 			return created(EMPLOYEE + "/" + employee.getId());
-		return conflict(KEY_EMPLOYEE, employee);
+		return conflict();
 	}
 
 	@PutMapping(EMPLOYEE_ID)

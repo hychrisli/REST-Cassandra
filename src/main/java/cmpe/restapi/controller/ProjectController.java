@@ -3,7 +3,6 @@ package cmpe.restapi.controller;
 import static cmpe.restapi.config.UrlConstants.PROJECT;
 import static cmpe.restapi.config.UrlConstants.PROJECTS;
 import static cmpe.restapi.config.UrlConstants.PROJECT_ID;
-
 import static cmpe.restapi.config.JsonConstants.KEY_PROJECT;
 import static cmpe.restapi.config.JsonConstants.KEY_PROJECTS;
 
@@ -23,33 +22,53 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cmpe.restapi.config.JsonResponse;
 import cmpe.restapi.dao.Project;
+import cmpe.restapi.error.AppException;
 import cmpe.restapi.service.ProjectService;
 
 @RestController
 public class ProjectController extends AbstractController {
-	
+
 	@Autowired
 	ProjectService projectSvc;
-	
+
 	@GetMapping(PROJECTS)
-	public ResponseEntity<JsonResponse> getProjects(){
-		
+	public ResponseEntity<JsonResponse> getProjects() {
 		List<Project> projects = projectSvc.getAllProjects();
-		
-		if (projects != null)
-			return success(KEY_PROJECTS, projects);
-		
-		return notFound();
+		if (projects.isEmpty())
+			return notFound();
+		return success(KEY_PROJECTS, projects);
 	}
-	
+
 	@GetMapping(PROJECT_ID)
-	public ResponseEntity<JsonResponse> getProject(@PathVariable Long id){
-		
+	public ResponseEntity<JsonResponse> getProject(@PathVariable Long id) {
 		Project project = projectSvc.findProject(id);
-		
 		if (project != null)
 			return success(KEY_PROJECT, project);
-		
 		return notFound();
-	}	
+	}
+
+	@PostMapping(PROJECT)
+	public ResponseEntity<JsonResponse> createProject(@RequestBody Project project) {
+		if (projectSvc.createProject(project))
+			return created(PROJECT + "/" + project.getId());
+		return conflict();
+	}
+
+	@PutMapping(PROJECT_ID)
+	public ResponseEntity<JsonResponse> updateProject(@PathVariable Long id, HttpServletRequest req)
+			throws AppException {
+		Project project = projectSvc.updateProject(id, req);
+		if (project != null)
+			return success(KEY_PROJECT, project);
+		return notFound();
+	}
+
+	@DeleteMapping(PROJECT_ID)
+	public ResponseEntity<JsonResponse> deleteProject(@PathVariable Long id) {
+		Project project = projectSvc.deleteProject(id);
+		if (project != null) {
+			return success(KEY_PROJECT, project);
+		}
+		return notFound();
+	}
 }

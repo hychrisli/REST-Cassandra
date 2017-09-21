@@ -59,7 +59,6 @@ public class ProjectServiceImpl implements ProjectService {
 			} catch (JsonProcessingException e) {
 				throw new AppException(ERR_INVALID_JSON, e);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				throw new AppException(ERR_IO_EXCEPTION, e);
 			}
 		}
