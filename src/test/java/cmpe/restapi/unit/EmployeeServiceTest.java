@@ -1,8 +1,7 @@
 package cmpe.restapi.unit;
 
-import static cmpe.restapi.config.UrlConstants.EMPLOYEE;
 import static org.mockito.Matchers.refEq;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.mockito.Mockito.times;
 
 import java.util.List;
 
@@ -23,8 +22,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import cmpe.restapi.dao.Employee;
 import cmpe.restapi.error.AppException;
@@ -98,4 +95,14 @@ public class EmployeeServiceTest {
 		Assert.assertThat(emp1b, new ReflectionEquals(emp1c));
 	}
 	
+	@Test
+	public void testDeleteEmployee() {
+		// delete success
+		Assert.assertEquals(emp1, employeeSvc.deleteEmployee(1L));
+		Mockito.verify(repo, times(1)).deleteById(1L);
+		
+		// delete not found
+		Assert.assertEquals(null, employeeSvc.deleteEmployee(2L));
+		Mockito.verify(repo, times(0)).deleteById(2L);
+	}
 }
