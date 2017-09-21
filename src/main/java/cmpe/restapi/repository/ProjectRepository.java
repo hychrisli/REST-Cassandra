@@ -3,12 +3,12 @@ package cmpe.restapi.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import cmpe.restapi.dao.Employee;
+import cmpe.restapi.dao.Project;
 
-public interface EmployeeRepository extends CrudRepository<Employee, Long> {
+public interface ProjectRepository extends CrudRepository<Project, Long>{
 	
-	Employee findById(Long id);
+	Project findById(Long id);
 	
 	@Transactional
-	Long deleteById(Long id);
+	Long deleteById(Long id); 
 }

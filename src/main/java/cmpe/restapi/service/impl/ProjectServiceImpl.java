@@ -1,0 +1,79 @@
+package cmpe.restapi.service.impl;
+
+import static cmpe.restapi.error.ErrorCode.ERR_INVALID_JSON;
+import static cmpe.restapi.error.ErrorCode.ERR_IO_EXCEPTION;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
+
+import cmpe.restapi.dao.Project;
+import cmpe.restapi.error.AppException;
+import cmpe.restapi.repository.ProjectRepository;
+import cmpe.restapi.service.ProjectService;
+
+@Service
+public class ProjectServiceImpl implements ProjectService {
+
+	@Autowired
+	ProjectRepository repo;
+	
+	@Override
+	public List<Project> getAllProjects() {
+		return Lists.newArrayList(repo.findAll());
+	}
+
+	@Override
+	public Project findProject(Long id) {
+		return repo.findById(id);
+	}
+
+	@Override
+	public Boolean createProject(Project project) {
+		if (findProject(project.getId()) != null)
+			return false;
+		repo.save(project);
+		return false;
+	}
+
+	@Override
+	public Project updateProject(Long id, HttpServletRequest req) throws AppException {
+		Project project = findProject(id);
+		
+		if (project != null) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			try {
+				Project updatedProject = objectMapper
+						.readerForUpdating(project)
+						.readValue(req.getReader());
+				repo.save(updatedProject);
+				return updatedProject;
+			} catch (JsonProcessingException e) {
+				throw new AppException(ERR_INVALID_JSON, e);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				throw new AppException(ERR_IO_EXCEPTION, e);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Project deleteProject(Long id) {
+		Project project = findProject(id);
+		if (project != null) {
+			repo.delete(id);
+			return project;
+		}
+		return null;
+	}
+
+}

@@ -3,7 +3,6 @@ package cmpe.restapi.service.impl;
 import static cmpe.restapi.error.ErrorCode.ERR_INVALID_JSON;
 import static cmpe.restapi.error.ErrorCode.ERR_IO_EXCEPTION;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,36 +26,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private EmployeeRepository repo;
 	
-	/*@Autowired
-	private ObjectMapper objectMapper;*/
-	
 	@Override
 	public List<Employee> getAllEmployees(){
-		List<Employee> res = Lists.newArrayList(repo.findAll());
-		return res ;
-	}
-
-	@Override
-	public Boolean createEmployee(Employee employee) {
-		if (findEmployee(employee.getId()) != null)
-			return false;
-		repo.save(employee);
-		return true;
+		return Lists.newArrayList(repo.findAll()) ;
 	}
 
 	@Override
 	public Employee findEmployee(Long id) {
 		return repo.findById(id);
 	}
-
+	
 	@Override
-	public Employee deleteEmployee(Long id) {
-		Employee employee = findEmployee(id);
-		if (employee != null) {
-			repo.deleteById(id);
-			return employee;
-		}
-		return null;
+	public Boolean createEmployee(Employee employee) {
+		if (findEmployee(employee.getId()) != null)
+			return false;
+		repo.save(employee);
+		return true;
 	}
 
 	@Override
@@ -76,6 +61,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 			} catch (IOException e) {
 				throw new AppException(ERR_IO_EXCEPTION, e);
 			}
+		}
+		return null;
+	}
+	
+	@Override
+	public Employee deleteEmployee(Long id) {
+		Employee employee = findEmployee(id);
+		if (employee != null) {
+			repo.deleteById(id);
+			return employee;
 		}
 		return null;
 	}
