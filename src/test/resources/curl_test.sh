@@ -26,8 +26,20 @@ ${CURL_DELETE}/employee/2 | ${JSON_PP}
 
 
 # All Projects
-${CURL_GET}/project ${JSON_PP}
+${CURL_GET}/project | ${JSON_PP}
+
 #Project 1
-${CURL_GET}/project/1 ${JSON_PP}
-#project 3
-${CURL_GET}/project/3 ${JSON_PP}
+${CURL_GET}/project/1 | ${JSON_PP}
+
+# POST Create Project 3
+${CURL_POST}/project -H 'Content-Type: application/json' -d '{"id": 3, "name" : "Apache Kafka", "budget" : 342364.32}' | ${JSON_PP}
+
+# PUT Update Project 2
+${CURL_PUT}/project/2 -H 'Content-Type: application/json' -d '{"name" : "Apache Storm"}' | ${JSON_PP}
+
+# DELETE Project 1
+${CURL_DELETE}/project/1 | ${JSON_PP}
+
+
+
+
