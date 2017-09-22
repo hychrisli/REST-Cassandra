@@ -7,7 +7,7 @@ JSON_PP="json_pp --json_opt=canonical,pretty"
 
 
 # GET All Employees
-${CURL_GET}/employees | ${JSON_PP}
+${CURL_GET}/employee | ${JSON_PP}
 
 # GET Employee 1
 ${CURL_GET}/employee/1 | ${JSON_PP}
@@ -26,7 +26,7 @@ ${CURL_DELETE}/employee/2 | ${JSON_PP}
 
 
 # All Projects
-${CURL_GET}/projects ${JSON_PP}
+${CURL_GET}/project ${JSON_PP}
 #Project 1
 ${CURL_GET}/project/1 ${JSON_PP}
 #project 3

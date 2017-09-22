@@ -9,8 +9,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.cassandra.repository.MapId;
-import org.springframework.data.cassandra.repository.support.BasicMapId;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,7 +17,6 @@ import com.google.common.collect.Lists;
 
 import cmpe.restapi.dao.Employee;
 import cmpe.restapi.error.AppException;
-import cmpe.restapi.mapper.EmployeeMapper;
 import cmpe.restapi.repository.EmployeeRepository;
 import cmpe.restapi.service.EmployeeService;
 import cmpe.restapi.service.MapIdService;

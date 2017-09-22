@@ -1,12 +1,8 @@
 package cmpe.restapi.controller;
 
 import static cmpe.restapi.config.UrlConstants.EMPLOYEE;
-import static cmpe.restapi.config.UrlConstants.EMPLOYEES;
-import static cmpe.restapi.config.UrlConstants.EMPLOYEE_ID;
-
 import static cmpe.restapi.config.JsonConstants.KEY_EMPLOYEE;
 import static cmpe.restapi.config.JsonConstants.KEY_EMPLOYEES;
-
 
 import java.util.List;
 
@@ -27,32 +23,31 @@ import cmpe.restapi.dao.Employee;
 import cmpe.restapi.error.AppException;
 import cmpe.restapi.service.EmployeeService;
 
-
 @RestController
 public class EmployeeController extends AbstractController {
-	
+
 	@Autowired
 	EmployeeService employeeSvc;
-	
-	@GetMapping(EMPLOYEES)
+
+	@GetMapping(EMPLOYEE)
 	public ResponseEntity<JsonResponse> getEmployees() {
 		List<Employee> employeeLst = employeeSvc.getAllEmployees();
 
 		if (employeeLst.isEmpty())
 			return notFound();
-		
+
 		return success(KEY_EMPLOYEES, employeeLst);
-		
+
 	}
 
-	@GetMapping(EMPLOYEE_ID)
-	public ResponseEntity<JsonResponse> getEmployee(@PathVariable Long id){
+	@GetMapping(EMPLOYEE + "/{id}")
+	public ResponseEntity<JsonResponse> getEmployee(@PathVariable Long id) {
 		Employee employee = employeeSvc.findEmployee(id);
 		if (employee != null)
 			return success(KEY_EMPLOYEE, employee);
 		return notFound();
 	}
-	
+
 	@PostMapping(EMPLOYEE)
 	public ResponseEntity<JsonResponse> createEmployee(@RequestBody Employee employee) {
 		if (employeeSvc.createEmployee(employee))
@@ -60,21 +55,22 @@ public class EmployeeController extends AbstractController {
 		return conflict();
 	}
 
-	@PutMapping(EMPLOYEE_ID)
-	public ResponseEntity<JsonResponse> updateEmployee(@PathVariable Long id, HttpServletRequest request) throws AppException {
+	@PutMapping(EMPLOYEE + "/{id}")
+	public ResponseEntity<JsonResponse> updateEmployee(@PathVariable Long id, HttpServletRequest request)
+			throws AppException {
 		Employee employee = employeeSvc.updateEmployee(id, request);
 		if (employee != null)
 			return success(KEY_EMPLOYEE, employee);
 		return notFound();
 	}
-	
-	@DeleteMapping(EMPLOYEE_ID)
-	public ResponseEntity<JsonResponse> deleteEmployee(@PathVariable Long id){
+
+	@DeleteMapping(EMPLOYEE + "/{id}")
+	public ResponseEntity<JsonResponse> deleteEmployee(@PathVariable Long id) {
 		Employee employee = employeeSvc.deleteEmployee(id);
 		if (employee != null) {
 			return success(KEY_EMPLOYEE, employee);
 		}
 		return notFound();
 	}
-	
+
 }

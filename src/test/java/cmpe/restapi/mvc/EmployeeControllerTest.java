@@ -12,9 +12,10 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.times;
 import static org.mockito.Matchers.any;
-import static cmpe.restapi.config.UrlConstants.EMPLOYEES;
 import static cmpe.restapi.config.UrlConstants.EMPLOYEE;
 import static cmpe.restapi.config.JsonConstants.KEY_LOCATION;
+import static cmpe.restapi.config.JsonConstants.KEY_EMPLOYEE;
+import static cmpe.restapi.config.JsonConstants.KEY_EMPLOYEES;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,11 +73,11 @@ public class EmployeeControllerTest {
 	public void testGetEmployeesSuccess() throws Exception {
 		
 		Mockito.when(employeeSvc.getAllEmployees()).thenReturn(emplst);
-		mockMvc.perform(get(EMPLOYEES))
+		mockMvc.perform(get(EMPLOYEE))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.employees", hasSize(1)))
-		.andExpect(jsonPath("$.employees[0].id", equalTo(1)))
-		.andExpect(jsonPath("$.employees[0].lastname", equalTo("Smith")));
+		.andExpect(jsonPath("$." + KEY_EMPLOYEES, hasSize(1)))
+		.andExpect(jsonPath("$." + KEY_EMPLOYEES + "[0].id", equalTo(1)))
+		.andExpect(jsonPath("$." + KEY_EMPLOYEES + "[0].lastname", equalTo("Smith")));
 
 		Mockito.verify(employeeSvc, times(1)).getAllEmployees();
 	}
@@ -84,7 +85,7 @@ public class EmployeeControllerTest {
 	@Test
 	public void testGetEmployeesNotFound() throws Exception{
 		Mockito.when(employeeSvc.getAllEmployees()).thenReturn(new ArrayList<Employee>());
-		mockMvc.perform(get(EMPLOYEES)).andExpect(status().isNotFound());
+		mockMvc.perform(get(EMPLOYEE)).andExpect(status().isNotFound());
 	}
 	
 	@Test
@@ -96,7 +97,7 @@ public class EmployeeControllerTest {
 		// OK
 		mockMvc.perform(get(EMPLOYEE + "/1"))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.employee.lastname",equalTo("Smith")));
+		.andExpect(jsonPath("$." + KEY_EMPLOYEE + ".lastname",equalTo("Smith")));
 		Mockito.verify(employeeSvc, times(1)).findEmployee(1L);
 		
 		// NOT FOUND
@@ -146,7 +147,7 @@ public class EmployeeControllerTest {
 		Mockito.when(employeeSvc.updateEmployee(eq(1L), any())).thenReturn(emp1b);
 		mockMvc.perform(put(EMPLOYEE + "/1").contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.employee.firstname", equalTo("Kevin")));
+		.andExpect(jsonPath("$." + KEY_EMPLOYEE + ".firstname", equalTo("Kevin")));
 	}
 	
 	@Test
@@ -163,8 +164,8 @@ public class EmployeeControllerTest {
 		// delete success
 		mockMvc.perform(delete(EMPLOYEE + "/1"))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.employee.id", equalTo("1")))
-		.andExpect(jsonPath("$.employee.firstname", equalTo("John")));
+		.andExpect(jsonPath("$." + KEY_EMPLOYEE + ".id", equalTo("1")))
+		.andExpect(jsonPath("$." + KEY_EMPLOYEE + ".firstname", equalTo("John")));
 		
 		// delete not found
 		mockMvc.perform(delete(EMPLOYEE + "/2")).andExpect(status().isNotFound());

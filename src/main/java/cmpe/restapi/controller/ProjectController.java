@@ -1,8 +1,6 @@
 package cmpe.restapi.controller;
 
 import static cmpe.restapi.config.UrlConstants.PROJECT;
-import static cmpe.restapi.config.UrlConstants.PROJECTS;
-import static cmpe.restapi.config.UrlConstants.PROJECT_ID;
 import static cmpe.restapi.config.JsonConstants.KEY_PROJECT;
 import static cmpe.restapi.config.JsonConstants.KEY_PROJECTS;
 
@@ -31,7 +29,7 @@ public class ProjectController extends AbstractController {
 	@Autowired
 	ProjectService projectSvc;
 
-	@GetMapping(PROJECTS)
+	@GetMapping(PROJECT)
 	public ResponseEntity<JsonResponse> getProjects() {
 		List<Project> projects = projectSvc.getAllProjects();
 		if (projects.isEmpty())
@@ -39,7 +37,7 @@ public class ProjectController extends AbstractController {
 		return success(KEY_PROJECTS, projects);
 	}
 
-	@GetMapping(PROJECT_ID)
+	@GetMapping(PROJECT + "/{id}")
 	public ResponseEntity<JsonResponse> getProject(@PathVariable Long id) {
 		Project project = projectSvc.findProject(id);
 		if (project != null)
@@ -54,7 +52,7 @@ public class ProjectController extends AbstractController {
 		return conflict();
 	}
 
-	@PutMapping(PROJECT_ID)
+	@PutMapping(PROJECT + "/{id}")
 	public ResponseEntity<JsonResponse> updateProject(@PathVariable Long id, HttpServletRequest req)
 			throws AppException {
 		Project project = projectSvc.updateProject(id, req);
@@ -63,7 +61,7 @@ public class ProjectController extends AbstractController {
 		return notFound();
 	}
 
-	@DeleteMapping(PROJECT_ID)
+	@DeleteMapping(PROJECT + "/{id}")
 	public ResponseEntity<JsonResponse> deleteProject(@PathVariable Long id) {
 		Project project = projectSvc.deleteProject(id);
 		if (project != null) {
