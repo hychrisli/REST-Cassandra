@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cmpe.restapi.config.JsonResponse;
-import cmpe.restapi.dao.Employee;
+import cmpe.restapi.entity.Employee;
 import cmpe.restapi.error.AppException;
 import cmpe.restapi.service.EmployeeService;
 

@@ -25,7 +25,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.cassandra.repository.MapId;
 import org.springframework.data.cassandra.repository.support.BasicMapId;
 
-import cmpe.restapi.dao.Employee;
+import cmpe.restapi.entity.Employee;
 import cmpe.restapi.error.AppException;
 import cmpe.restapi.repository.EmployeeRepository;
 import cmpe.restapi.service.EmployeeService;
@@ -88,7 +88,10 @@ public class EmployeeServiceTest {
 	public void testCreateEmployee(){
 		Mockito.when(repo.save(emp2)).thenReturn(emp2);
 		
+		// Conflict
 		Assert.assertEquals(false, employeeSvc.createEmployee(emp1));
+		
+		// Success
 		Assert.assertEquals(true, employeeSvc.createEmployee(emp2));
 	}
 	
@@ -107,11 +110,15 @@ public class EmployeeServiceTest {
 		Mockito.when(repo.findOne(mId1)).thenReturn(emp1a);
 		Mockito.when(repo.save(refEq(emp1b))).thenReturn(emp1b);
 		
+		// Success
 		Employee emp1c = employeeSvc.updateEmployee(1L,putReq);
 		Assert.assertThat(emp1b, new ReflectionEquals(emp1c));
+		
+		// Not Found
+		Assert.assertEquals(null, employeeSvc.updateEmployee(2L, putReq));
 	}
 	
-	//@Test
+	@Test
 	public void testDeleteEmployee() {
 		// delete success
 		Assert.assertEquals(emp1, employeeSvc.deleteEmployee(1L));

@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cmpe.restapi.dao.Project;
+import cmpe.restapi.entity.Project;
 import cmpe.restapi.error.AppException;
 
 public interface ProjectService {

@@ -1,14 +1,11 @@
 package cmpe.restapi.repository;
 
+import org.springframework.data.cassandra.repository.MapId;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import cmpe.restapi.dao.Project;
+import cmpe.restapi.entity.Project;
 
-public interface ProjectRepository extends CrudRepository<Project, Long>{
+public interface ProjectRepository extends CrudRepository<Project, MapId>{
 	
-	Project findById(Long id);
-	
-	@Transactional
-	Long deleteById(Long id); 
 }

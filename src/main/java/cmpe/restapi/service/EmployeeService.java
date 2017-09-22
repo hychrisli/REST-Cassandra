@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.cassandra.repository.MapId;
 
-import cmpe.restapi.dao.Employee;
+import cmpe.restapi.entity.Employee;
 import cmpe.restapi.error.AppException;
 
 public interface EmployeeService {

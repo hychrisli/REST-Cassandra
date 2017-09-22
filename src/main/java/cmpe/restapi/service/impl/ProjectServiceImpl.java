@@ -15,16 +15,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
-import cmpe.restapi.dao.Project;
+import cmpe.restapi.entity.Project;
 import cmpe.restapi.error.AppException;
 import cmpe.restapi.repository.ProjectRepository;
+import cmpe.restapi.service.MapIdService;
 import cmpe.restapi.service.ProjectService;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
-	ProjectRepository repo;
+	private ProjectRepository repo;
+	
+	@Autowired
+	private MapIdService mapIdSvc;
 	
 	@Override
 	public List<Project> getAllProjects() {
@@ -33,7 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Project findProject(Long id) {
-		return repo.findById(id);
+		return repo.findOne(mapIdSvc.toMapId(id));
 	}
 
 	@Override
@@ -41,7 +45,7 @@ public class ProjectServiceImpl implements ProjectService {
 		if (findProject(project.getId()) != null)
 			return false;
 		repo.save(project);
-		return false;
+		return true;
 	}
 
 	@Override
@@ -69,7 +73,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public Project deleteProject(Long id) {
 		Project project = findProject(id);
 		if (project != null) {
-			repo.delete(id);
+			repo.delete(mapIdSvc.toMapId(id));
 			return project;
 		}
 		return null;

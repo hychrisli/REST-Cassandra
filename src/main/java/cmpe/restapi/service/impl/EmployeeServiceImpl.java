@@ -15,7 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
-import cmpe.restapi.dao.Employee;
+import cmpe.restapi.entity.Employee;
 import cmpe.restapi.error.AppException;
 import cmpe.restapi.repository.EmployeeRepository;
 import cmpe.restapi.service.EmployeeService;

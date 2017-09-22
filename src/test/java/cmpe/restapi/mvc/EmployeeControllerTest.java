@@ -35,7 +35,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import cmpe.restapi.controller.EmployeeController;
-import cmpe.restapi.dao.Employee;
+import cmpe.restapi.entity.Employee;
 import cmpe.restapi.service.EmployeeService;
 
 

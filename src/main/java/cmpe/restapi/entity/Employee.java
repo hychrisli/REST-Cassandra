@@ -1,4 +1,4 @@
-package cmpe.restapi.dao;
+package cmpe.restapi.entity;
 
 import java.io.Serializable;
 
