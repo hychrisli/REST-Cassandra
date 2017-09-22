@@ -23,6 +23,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -38,8 +39,6 @@ import cmpe.restapi.controller.EmployeeController;
 import cmpe.restapi.entity.Employee;
 import cmpe.restapi.service.EmployeeService;
 
-
-import org.junit.Before;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmployeeControllerTest {
@@ -152,11 +151,12 @@ public class EmployeeControllerTest {
 	
 	@Test
 	public void testUpdateEmployeeNotFound() throws Exception {
-		Mockito.when(employeeSvc.updateEmployee(eq(1L), any())).thenReturn(null);
-		mockMvc.perform(put(EMPLOYEE + "/1").contentType(MediaType.APPLICATION_JSON))
+		Mockito.when(employeeSvc.updateEmployee(eq(2L), any())).thenReturn(null);
+		mockMvc.perform(put(EMPLOYEE + "/2").contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status().isNotFound());
 	}
 
+	@Test
 	public void testDeleteEmployee() throws Exception {
 		Mockito.when(employeeSvc.deleteEmployee(1L)).thenReturn(emp1);
 		Mockito.when(employeeSvc.deleteEmployee(2L)).thenReturn(null);
@@ -164,7 +164,7 @@ public class EmployeeControllerTest {
 		// delete success
 		mockMvc.perform(delete(EMPLOYEE + "/1"))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$." + KEY_EMPLOYEE + ".id", equalTo("1")))
+		.andExpect(jsonPath("$." + KEY_EMPLOYEE + ".id", equalTo(1)))
 		.andExpect(jsonPath("$." + KEY_EMPLOYEE + ".firstname", equalTo("John")));
 		
 		// delete not found
