@@ -4,7 +4,7 @@ RESTful Web Service on Cassandra. CMPE 282 Assignment.
 
 ### Goal ###
 
-* Achieve http methods GET/POST/PUT/DELETE through Java based REST API
+* Support http methods GET/POST/PUT/DELETE through Java based REST API
 
 ### Functionality ###
 * GET /.../rest/employee/
