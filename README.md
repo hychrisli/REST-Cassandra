@@ -1,29 +1,31 @@
-# README #
+# REST-Cassandra #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+RESTful Web Service on Cassandra. CMPE 282 Assignment. 
 
-### What is this repository for? ###
+### Goal ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Achieve http methods GET/POST/PUT/DELETE through Java based REST API
 
-### How do I get set up? ###
+### Functionality ###
+* GET /.../rest/employee/
+* GET /.../rest/project
+* GET /.../rest/employee/m
+* GET /.../rest/project/n
+* POST /.../rest/employee
+* POST /.../rest/project
+* PUT /.../rest/employee/m
+* PUT /.../rest/project/n
+* DELETE /.../rest/employee/m
+* DELETE /.../rest/project/n
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+### Cassandra Setup ###
 
-### Contribution guidelines ###
+CREATE KEYSPACE mydb WITH replication={'class': 'SimpleStrategy', 'replication_factor': '1'};
 
-* Writing tests
-* Code review
-* Other guidelines
+CREATE TABLE Employee ( id int, firstname text, lastname text, PRIMARY KEY(id));
+INSERT INTO Employee (id, firstname, lastname) VALUES (1, 'John', 'Smith');
+INSERT INTO Employee (id, firstname, lastname) VALUES (2, 'Laura', 'Williams');
 
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+CREATE TABLE Project (id int, name text, budget float, PRIMARY KEY(id));
+INSERT INTO Project (id, name, budget) VALUES (1, 'Apache Cassandra', 32300.00);
+INSERT INTO Project (id, name, budget) VALUES (2, 'Apache Spark', 42390.00);
