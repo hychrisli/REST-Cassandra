@@ -104,7 +104,7 @@ public class EmployeeServiceTest {
 		HttpServletRequest putReq = new HttpServletRequestWrapper(req);
 		
 		Employee emp1a = new Employee(emp1);
-		Employee emp1b = new Employee(emp1.getId(), "Kevin", emp1.getLastname());
+		Employee emp1b = new Employee(emp1.getId(), "Kevi", emp1.getLastname());
 		
 		Mockito.when(putReq.getReader()).thenReturn(br);
 		Mockito.when(repo.findOne(mId1)).thenReturn(emp1a);
