@@ -1,0 +1,15 @@
+version: "3"
+services:
+
+  db:
+    image: dschroe/cassandra-docker
+    networks:
+      - cmpe282compose
+    ports:
+      - "9042:9042"
+    volumes:
+      - ./cassandra:/var/lib/cassandra
+      - ./db-schema:/docker-entrypoint-initdb.d/
+
+networks:
+  cmpe282compose:
