@@ -1,0 +1,28 @@
+version: "3"
+services:
+  
+  web:
+    # replace username/repo:tag with your name and image details
+    image: hychrisli/cmpe282
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    ports: 
+      - "8080:8080"
+    networks: 
+      - cmpe282compose
+    environment:
+      - CASSANDRA_HOST=db
+  db:
+    image: cassandra
+    networks:
+      - cmpe282compose
+    ports:
+      - "9042:9042"
+networks:
+  cmpe282compose:

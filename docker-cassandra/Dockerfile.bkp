@@ -1,0 +1,7 @@
+FROM cassandra
+
+RUN mkdir /mydb
+COPY . /mydb
+WORKDIR /mydb
+
+ENTRYPOINT /bin/bash setup.sh
